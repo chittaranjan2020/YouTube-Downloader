@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Darlin | YouTube Downloader</title>
+        <link href="/css/style.css" rel="stylesheet">
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div class="topPart">
+            <h1>Darlin</h1>
+        </div>
+        <div class="body">
+            <div class="center">
+                <h1>Download YouTube videos with Darlin</h1>
+                <input id="dl" autocomplete="off" placeholder="Enter a YouTube URL."><br>
+                <div id="downloadSnack">
+                    <button onclick="download()">Download</button>
+                </div>
+                <div id="qs"></div>
+                <div id="ldr" style="display:none;">
+                    <span class="cssload-loader"><span class="cssload-loader-inner"></span></span>
+                    <p id="status">Loading...</p>
+                    <p id="statDeet"></p>
+                </div>
+                <div id="complete" style="display:none;">
+                    <h1>✓</h1>
+                    <p>Download is complete! The file will be removed in 2 hours.</p>
+                    <a id="downloadLink"><button>Download</button></a>
+                </div>
+            </div>
+        </div>
+        <script src="/js/home.js"></script>
+    </body>
+</html>
