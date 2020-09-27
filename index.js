@@ -203,9 +203,11 @@ async function runServer(req, res) {
                         var path = "./files" + url.pathname.split("/files")[1];
                         var fileName = url.pathname.split("/")[url.pathname.split("/").length - 1];
                         var readStream = fs.createReadStream(path);
+                        var fileSize = (fs.statSync(fileName)["size"])
                         res.writeHead(200, {
                             "Access-Control-Allow-Origin":"*",
                             "Content-Type": "application/octet-stream",
+                            "Content-Length": fileSize,
                             "Content-Disposition": "attachment; filename=" + fileName
                         })
                         readStream.pipe(res);
