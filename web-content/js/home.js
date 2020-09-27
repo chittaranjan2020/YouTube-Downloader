@@ -51,6 +51,9 @@ function createRequest(i) {
             div.classList.add("qualityChip");
             div.id = json[c].itag;
             div.onclick = function () {openItag(window.id, this.id)}
+            var h3 = document.createElement("H3");
+            h3.innerHTML = json[c].qualityLabel + " - " + json[c].audioBitrate + "kbps";
+            div.appendChild(h3)
             if (json[c].hasAudio == true && json[c].hasVideo == true) {
                 document.getElementById("qs").appendChild(div);
             }

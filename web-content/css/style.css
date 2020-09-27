@@ -85,6 +85,11 @@ input {
     cursor:pointer;
 }
 
+.qualityChip h3 {
+    margin:0;
+    padding-top:27px;
+}
+
 #complete h1 {
     margin-top:0;
     margin-bottom:5px;
