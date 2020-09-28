@@ -20,6 +20,7 @@ body {
     left:0;
     height:36px;
     padding:5px;
+    padding-left: 2em;
     background:black;
     color:white;
 }
@@ -46,11 +47,19 @@ body {
     text-align:center;
 }
 
-input {
+input#dl {
     height:50px;
-    width:75%;
+    width: 100%;
+    max-width:75%;
     font-size:36px;
     position:relative;
+    border: 0;
+    border-radius: 10px;
+    padding-left: 1em;
+}
+
+input:focus {
+    outline: 0px;
 }
 
 .invalid {
@@ -62,11 +71,15 @@ input {
     margin-top:25px;
 }
 
-#downloadSnack button {
+button {
     background:white;
     border:0;
-    height:25px;
+    /* height:25px; */
     text-align:center;
+    font-size: 18px;
+    padding: 0.5em 1em;
+    border: 0;
+    border-radius: 10px;
 }
 
 #ldr {
@@ -77,19 +90,33 @@ input {
     margin-top:10px;
 }
 
+#qs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .qualityChip {
     background:#d0d0d0;
     color:black;
-    min-height:75px;
+    min-height:50px;
     margin-top:10px;
+    width: 70%;
+    border: 0;
+    border-radius: 10px;
     cursor:pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .qualityChip h3 {
     margin:0;
-    padding-top:27px;
 }
 
+#complete {
+  margin: 2em 0px;
+}
 #complete h1 {
     margin-top:0;
     margin-bottom:5px;
@@ -97,6 +124,7 @@ input {
 
 #complete p {
     margin:0;
+    margin-bottom:2em;
 }
 
 @keyframes shake {
@@ -145,19 +173,19 @@ input {
 	0% {
 		transform: rotate(0deg);
 	}
-	
+
 	25% {
 		transform: rotate(180deg);
 	}
-	
+
 	50% {
 		transform: rotate(180deg);
 	}
-	
+
 	75% {
 		transform: rotate(360deg);
 	}
-	
+
 	100% {
 		transform: rotate(360deg);
 	}
@@ -167,19 +195,19 @@ input {
 	0% {
 		height: 0%;
 	}
-	
+
 	25% {
 		height: 0%;
 	}
-	
+
 	50% {
 		height: 100%;
 	}
-	
+
 	75% {
 		height: 100%;
 	}
-	
+
 	100% {
 		height: 0%;
 	}
