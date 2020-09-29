@@ -1,3 +1,19 @@
+window.addEventListener("DOMContentLoaded", () => {
+  if(window.location.search.substring(0,3)=='?v='){
+    let id = window.location.search.substring(3,14);
+    if(/^[a-zA-Z0-9-_]{11}$/.test(id)) {
+      document.getElementById("dl").value = "https://www.youtube.com/watch?v="+id
+      document.getElementById("dl").classList.remove("invalid");
+      document.getElementById("ldr").style.display = "";
+      document.getElementById("qs").innerHTML = "";
+      document.getElementById("downloadSnack").style.display = "none";
+      document.getElementById("status").innerHTML = "Checking URL...";
+      createRequest(id);
+    }else{
+      console.log("invalid video id");
+    }
+  }
+});
 function download() {
     document.getElementById("dl").classList.remove("invalid");
     document.getElementById("ldr").style.display = "";
