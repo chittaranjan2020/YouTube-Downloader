@@ -33,5 +33,6 @@ function getFormat(url, format) {
     xhr.onload = function () {
         document.getElementById("complete").style.display = "";
         document.getElementById("downloadLink").href = "/api/files/" + JSON.parse(xhr.responseText).location;
+        document.getElementById("ldr").style.display = "none";
     }
 }
