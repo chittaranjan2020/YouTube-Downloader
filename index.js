@@ -1,9 +1,11 @@
 const fs = require("fs");
 const http = require("http");
 const urlPkg = require("url");
-const ytdl = require("ytdl-core");
+const ytdl = require("youtube-dl");
+const port = process.env.PORT || 8008
 
-http.createServer(runServer).listen(process.env.PORT || 8008);
+http.createServer(runServer).listen(port);
+console.log("[i] darlin is on port " + port);
 
 async function runServer(req, res) {
     var url = urlPkg.parse(req.url, true);
@@ -112,79 +114,37 @@ async function runServer(req, res) {
                     "Content-Type": "application/json"
                 });
                 res.end(data);
-            } else if (path[0] == "validate") {
-                if (url.query.id) {
-                    var data = JSON.stringify({
-                        "isValid": ytdl.validateID(url.query.id),
-                        "type": "id"
-                    })
+            } else if (path[0] == "getInfo") {
+                var a = ytdl.getInfo(url.query.url, [], function(err, info) {
                     res.writeHead(200, {
-                        "Access-Control-Allow-Origin" : "*",
+                        "Access-Control-Allow-Origin": "*",
                         "Content-Type": "application/json"
                     });
-                    res.end(data);
-                } else if (url.query.url) {
-                    if (ytdl.validateURL(url.query.url)) {var id = ytdl.getURLVideoID(url.query.url);} else {var id = null;}
-                    var data = JSON.stringify({
-                        "isValid": ytdl.validateURL(url.query.url),
-                        "type": "url",
-                        "id": id
-                    });
-                    res.writeHead(200, {
-                        "Access-Control-Allow-Origin" : "*",
-                        "Content-Type": "application/json"
-                    });
-                    res.end(data);
-                } else {
-                    var data = JSON.stringify({
-                        "isValid": false,
-                        "type": "none"
-                    });
-                    res.writeHead(400, {
-                        "Access-Control-Allow-Origin" : "*",
-                        "Content-Type": "application/json"
-                    });
-                    res.end(data);
-                }
-            } else if (path[0] == "getQuality") {
-                if (url.query.id) {
-                    var i = await ytdl(url.query.id)
-                    i.on("info", function(info) {
-                        var b = JSON.stringify(info.formats);
-                        res.writeHead(200, {
-                            "Access-Control-Allow-Origin" : "*",
-                            "Content-Type": "application/json"
-                        });
-                        res.end(b);
-                    })
-                } else {
-                    var data = [];
-                    res.writeHead(400, {
-                        "Access-Control-Allow-Origin" : "*",
-                        "Content-Type": "application/json"
-                    });
-                    res.end(data);
-                }
+                    res.end(JSON.stringify(info));
+                });
             } else if (path[0] == "download") {
-                if (url.query.id && url.query.itag) {
+                if (url.query.url) {
                     if (!fs.existsSync("./files/")) {fs.mkdirSync("./files/")}
-                    fs.writeFileSync("./files/" + url.query.id + "-" + url.query.itag + ".mp4", "");
-                    var a = ytdl(url.query.id, {quality: url.query.itag})
-                    a.pipe(fs.createWriteStream("./files/" + url.query.id + "-" + url.query.itag + ".mp4")).on("close", function() {
-                        var data = JSON.stringify({
-                            "location": "/api/files/" + url.query.id + "-" + url.query.itag + ".mp4",
-                            "success": true
-                        });
-                        res.writeHead(200, {
-                            "Access-Control-Allow-Origin" : "*",
-                            "Content-Type": "application/json"
-                        });
-                        res.end(data);
-                        setTimeout(function () {
-                            if (fs.existsSync("./files/" + url.query.id + "-" + url.query.itag + ".mp4")) {
-                                fs.unlinkSync("./files/" + url.query.id + "-" + url.query.itag + ".mp4");
+                    if (url.query.format) {var a = ytdl(url.query.url, ["--format=" + url.query.format]);} else {var a = ytdl(url.query.url);}
+                    a.on('info', function(info) {
+                        var fn = info._filename;
+                        var b = a.pipe(fs.createWriteStream("./files/" + fn));
+                        b.on("close", function () {
+                            var d = {
+                                "location": btoa(fn),
+                                "success": true
                             }
-                        }, 1800000)
+                            res.writeHead(200, {
+                                "Access-Control-Allow-Origin" : "*",
+                                "Content-Type": "application/json"
+                            });
+                            res.end(JSON.stringify(d));
+                            setTimeout(function () {
+                                if (fs.existsSync("./files/" + url.query.id + "-" + url.query.itag + ".mp4")) {
+                                    fs.unlinkSync("./files/" + url.query.id + "-" + url.query.itag + ".mp4");
+                                }
+                            }, 1800000)
+                        })
                     });
                 } else {
                     var data = {
@@ -199,16 +159,17 @@ async function runServer(req, res) {
                 }
             } else if (path[0] == "files") {
                 if (fs.existsSync("./files/")) {
-                    if (fs.existsSync("./files" + url.pathname.split("/files")[1])) {
-                        var path = "./files" + url.pathname.split("/files")[1];
-                        var fileName = url.pathname.split("/")[url.pathname.split("/").length - 1];
+                    if (fs.existsSync("./files/" + atob(url.pathname.split("/files/")[1]))) {
+                        var path = "./files/" + atob(url.pathname.split("/files/")[1]);
+                        var fileName = atob(url.pathname.split("/files/")[1]);
+                        var fn = fileName.split("-")[fileName.split("-").length - 1];
                         var readStream = fs.createReadStream(path);
                         var fileSize = fs.statSync(path)["size"];
                         res.writeHead(200, {
                             "Access-Control-Allow-Origin":"*",
                             "Content-Type": "application/octet-stream",
                             "Content-Length": fileSize,
-                            "Content-Disposition": "attachment; filename=" + fileName
+                            "Content-Disposition": 'attachment; filename="' + fn + '"'
                         })
                         readStream.pipe(res);
                     } else {
@@ -229,6 +190,26 @@ async function runServer(req, res) {
                         res.end(resp)
                     })
                 }
+            } else if (path[0] == "extractors") {
+                ytdl.getExtractors(true, function (err, list) {
+                    if (list) {
+                        var list = JSON.stringify(list);
+                        res.writeHead(200, {
+                            "Access-Control-Allow-Origin" : "*",
+                            "Content-Type": "application/json"
+                        });
+                        res.end(list);
+                    } else {
+                        var err = JSON.stringify({
+                            "err": err.message
+                        });
+                        res.writeHead(500, {
+                            "Access-Control-Allow-Origin" : "*",
+                            "Content-Type": "application/json"
+                        });
+                        res.end(err);
+                    }
+                })
             } else {
                 var data = JSON.stringify({
                     "version": "1.0.0",
@@ -242,4 +223,12 @@ async function runServer(req, res) {
             }
         }
     }
+}
+
+function atob(a) {
+    return Buffer.from(a, 'base64').toString('utf-8');
+}
+
+function btoa(a) {
+    return Buffer.from(a, "utf-8").toString("base64");
 }

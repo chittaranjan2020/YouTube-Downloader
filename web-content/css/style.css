@@ -73,7 +73,7 @@ input:focus {
     margin-top:25px;
 }
 
-button, .drag-bookmark {
+button {
     background:white;
     border:0;
     text-align:center;
@@ -83,24 +83,9 @@ button, .drag-bookmark {
     border-radius: 10px;
 }
 
-#cta-bookmark {
-  border: 0;
-  border-radius: 10px;
-  background-color: #383838;
-  margin-top: 3em;
-  padding: 1em;
-  width: 75%;
-  margin-left: auto;
-  margin-right: auto;
+button:hover {
+    background:#b0b0b0;
 }
-
-.drag-bookmark {
-  color: black;
-  text-decoration: none;
-  cursor: move;
-  margin-top: 2em;
-}
-
 
 #ldr {
     margin-top:15px;
@@ -108,12 +93,6 @@ button, .drag-bookmark {
 
 #ldr p {
     margin-top:10px;
-}
-
-#qs {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .qualityChip {
@@ -135,8 +114,9 @@ button, .drag-bookmark {
 }
 
 #complete {
-  margin: 2em 0px;
+    margin: 2em 0px;
 }
+
 #complete h1 {
     margin-top:0;
     margin-bottom:5px;
@@ -145,6 +125,22 @@ button, .drag-bookmark {
 #complete p {
     margin:0;
     margin-bottom:2em;
+}
+
+#thumbnail {
+    width:25%;
+    height:auto;
+}
+
+#formatButtonList {
+    width:75%;
+    padding-left:13.5%;
+    padding-right:13.5%;
+}
+
+#formatButtonList button {
+    margin-right:1%;
+    margin-bottom:1%;
 }
 
 @keyframes shake {

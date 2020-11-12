@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Darlin | YouTube Downloader</title>
+        <title>Darlin | Video Downloader</title>
         <link href="/css/style.css" rel="stylesheet">
         <meta charset="UTF-8">
     </head>
@@ -11,13 +11,16 @@
         </div>
         <div class="body">
             <div class="center">
-                <h1>Download YouTube videos with Darlin</h1>
-                <p>fuck riaa lmao</p>
-                <input id="dl" autocomplete="off" placeholder="Enter a YouTube URL."><br>
+                <h1>Download any public video with Darlin</h1>
+                <p>Darlin gets downloads done.</p>
+                <input id="dl" autocomplete="off" placeholder="Enter any URL."><br>
                 <div id="downloadSnack">
                     <button onclick="download()">Download</button>
                 </div>
-                <div id="qs"></div>
+                <div id="formatSelect">
+                    <img id="thumbnail">
+                    <div id="formatButtonList"></div>
+                </div>
                 <div id="ldr" style="display:none;">
                     <span class="cssload-loader"><span class="cssload-loader-inner"></span></span>
                     <p id="status">Loading...</p>
@@ -27,16 +30,8 @@
                     <h1>✓</h1>
                     <p>Download is complete! The file will be removed in 30 minutes.</p>
                     <a id="downloadLink"><button>Download</button></a>
-                    <button onclick="document.location.search = ''">Restart</button>
+                    <button onclick="window.location.reload();">Restart</button>
                 </div>
-
-                <div id="cta-bookmark">
-                  <p>Drag this button in your bookmark bar to download videos easily:</p>
-                  <p><a class="drag-bookmark" href='javascript:"www.youtube.com"==window.location.host?"/watch"==window.location.pathname?window.location.href="https://darlin-dl.herokuapp.com/"+window.location.search:alert("Please click on a video before trying to download"):alert("Please visit youtube.com and click on a video before trying to download");'>
-                  Download the video
-                </a></p>
-                </div>
-
             </div>
         </div>
         <script src="/js/home.js"></script>

@@ -7,7 +7,7 @@
     "ffmpeg-static": "^4.2.7",
     "fluent-ffmpeg": "^2.1.2",
     "got": "^11.8.0",
-    "ytdl-core": "^4.0.3"
+    "youtube-dl": "^3.0.2"
   },
   "devDependencies": {},
   "scripts": {
