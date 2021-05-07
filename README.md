@@ -1,4 +1,3 @@
-# darlin
-Darlin is a YouTube downloading website using Nodejs.
+A YouTube downloading website using Nodejs.
 
-[Demo](https://darlin-dl.herokuapp.com/)
+[Demo](https://youtube-darlin.herokuapp.com/)
